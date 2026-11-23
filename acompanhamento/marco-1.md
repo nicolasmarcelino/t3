@@ -16,6 +16,11 @@ Podemos considerar o país como um **grafo não direcionado e ponderado**, em qu
 
 **Solução proposta**: executar o algoritmo de Dijkstra a partir da capital, tratando estradas e trens como arestas comuns, para obter a distância mínima até cada cidade...
 
+**Por que Dijkstra?**
+- pesos positivos: todas as arestas (estradas e trens) têm peso maior ou igual a 1.
+- origem única: o problema pede distâncias mínimas a partir de um único vértice, a capital (cidade 1).
+- eficiência: com fila de prioridade, a complexidade é O((V + E) * log V).
+
 # Entradas e saídas
 
 **Significado das entradas**: quantas cidades, estradas e rotas de trem existem, e quais são seus extremos e comprimentos.
