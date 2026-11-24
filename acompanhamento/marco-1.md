@@ -1,5 +1,7 @@
-# Problema: Jzzhu and Cities
-Cenário: um país com cidades ligadas por estradas e rotas de trem.
+# Marco 1
+Problema: Jzzhu and Cities
+
+Cenário: um país com cidades ligadas por estradas e rotas de trem
 
 # Descrição
 O país possui _n_ cidades, enumeradas de 1 a _n_.
@@ -9,7 +11,12 @@ Existem _k_ rotas de trem, que também são bidirecionais, mas sempre ligam a ca
 Pode haver várias estradas entre o mesmo par de cidades e várias rotas de trem para a mesma cidade.
 É garantido que existe pelo menos um caminho de cada cidade até a capital.
 O presidente quer economizar fechando algumas rotas de trem, mas a menor distância de cada cidade até a capital não pode mudar.
-Objetivo: descobrir o maior número de rotas de trem que podem ser fechadas ao mesmo tempo respeitando essa condição.
+
+**Objetivo:** descobrir o maior número de rotas de trem que podem ser fechadas ao mesmo tempo respeitando essa condição.
+
+# Classe do problema
+
+O problema pertence à classe de **caminho mínimo**, pois a regra central do problema é sobre menores distâncias: depois de fechar rotas de trens, a menor distância de cada cidade até a capital tem que continuar igual. Para saber se essa regra foi violada, é necessário saber quais são essas menores distâncias, e isso é exatamente o que os algoritmos de caminho mínimo calculam. É importante notar que a entrada do problema modela um mapa onde as cidades são pontos, estradas e trens são ligações com comprimento.
 
 # Modelagem
 Podemos considerar o país como um **grafo não direcionado e ponderado**, em que as cidades são vértices e as estradas e rotas de trem são arestas com pesos positivos. As rotas de trem são um tipo especial de aresta, pois sempre partem do vértice 1 e são as únicas que podem ser removidas. O objetivo é contar quantas dessas arestas são dispensáveis, isto é, quantas podem ser removidas simultaneamente sem alterar as distâncias mínimas a partir da capital.
