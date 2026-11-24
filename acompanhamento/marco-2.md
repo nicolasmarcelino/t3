@@ -18,3 +18,7 @@ Como o problema será modelado como um grafo ponderado, cada posição na lista 
 3: 3-2(4,road)  3-0(5,train)
 4: 4-0(5,road)  4-0(5,train)
 ```
+
+# Complexidade
+
+O objetivo da solução quanto à complexidade é não alterar a ordem de complexidade do Dijkstra, incorporando a decisão sobre os trens ao próprio relaxamento e aproveitando as estruturas que as implementações do algoritmo já disponibilizam. Tradicionalmente, o algoritmo de Dijkstra tem complexidade O((V + E) * log V) e necessita de uma fila de prioridade para armazenar os vértices com suas distâncias provisórias. Ela é construída como um heap binário, pois as operações principais desse heap (inserir, reestruturar após a remoção do mínimo e atualizar a prioridade) têm custo O(log V), e o custo logarítmico é muito menor (mais eficiente) do que o linear.
