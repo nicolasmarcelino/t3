@@ -21,13 +21,6 @@ O problema pertence à classe de **caminho mínimo**, pois a regra central do pr
 # Modelagem
 Podemos considerar o país como um **grafo não direcionado e ponderado**, em que as cidades são vértices e as estradas e rotas de trem são arestas com pesos positivos. As rotas de trem são um tipo especial de aresta, pois sempre partem do vértice 1 e são as únicas que podem ser removidas. O objetivo é contar quantas dessas arestas são dispensáveis, isto é, quantas podem ser removidas simultaneamente sem alterar as distâncias mínimas a partir da capital.
 
-**Solução proposta**: executar o algoritmo de Dijkstra a partir da capital, tratando estradas e trens como arestas comuns, para obter a distância mínima até cada cidade...
-
-**Por que Dijkstra?**
-- pesos positivos: todas as arestas (estradas e trens) têm peso maior ou igual a 1.
-- origem única: o problema pede distâncias mínimas a partir de um único vértice, a capital (cidade 1).
-- eficiência: com fila de prioridade, a complexidade é O((V + E) * log V).
-
 # Entradas e saídas
 
 **Significado das entradas**: quantas cidades, estradas e rotas de trem existem, e quais são seus extremos e comprimentos.
