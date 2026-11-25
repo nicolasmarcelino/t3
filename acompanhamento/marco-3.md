@@ -63,7 +63,9 @@ private IndexMinPQ<Double> pq;
 | 0-4 (5, road)  | 0+5 = 5 | ∞ > 5 verdadeiro | atualiza `distTo[4]` e `edgeTo[4]`, `insert(4, 5)` |
 | 0-2 (5, train) | 0+5 = 5 | 3 > 5 falso | ignorada |
 | 0-3 (5, train) | 0+5 = 5 | ∞ > 5 verdadeiro | atualiza `distTo[3]` e `edgeTo[3]`, `insert(3, 5)` |
-| 0-4 (5, train) | 0+5 = 5 | 5 > 5 falso | ignorada (empate) |
+| 0-4 (5, train) | 0+5 = 5 | 5 > 5 falso | **empate**: a nova aresta dá a mesma distância que a registrada. Como `distTo[4]` não muda, a fila não precisa ser atualizada. Resta decidir qual aresta fica registrada em `edgeTo[4]` (ver observação abaixo). |
+
+**Observação sobre o empate.** Quando duas arestas dão a mesma menor distância até um vértice, a escolha de qual delas fica em `edgeTo` **não pode depender da ordem** em que as arestas são percorridas. Se dependesse, o mesmo grafo poderia dar respostas diferentes. Aqui, se o trem 0-4 fosse processado antes da estrada 0-4, ele ficaria registrado primeiro, e a estrada chegaria depois com o mesmo valor. Por isso é necessária uma **regra de desempate** que dê o mesmo resultado nas duas ordens: no empate, a estrada tem preferência sobre o trem. Assim, `edgeTo[4]` termina como `road` de qualquer forma, e o trem 0-4 é dispensável. A fila não é afetada, pois ela só enxerga `distTo[w]`.
 
 | v | distTo[] | edgeTo[v] |
 |:-:|:--------:|:---------:|
@@ -80,7 +82,9 @@ private IndexMinPQ<Double> pq;
 | Aresta | distTo[v] + p | Teste `distTo[w] >` | Ação |
 |:------:|:-------------:|:-------------------:|:-----|
 | 1-0 (1, road) | 1+1 = 2 | 0 > 2 falso | ignorada |
-| 1-2 (2, road) | 1+2 = 3 | 3 > 3 falso | ignorada (empate) |
+| 1-2 (2, road) | 1+2 = 3 | 3 > 3 falso | ignorada (empate): `distTo[2]` já vale 3, então a fila não muda. O `edgeTo[2]` já registra uma estrada (`0-2`), então não há trem a substituir. |
+
+**Observação sobre o empate.** Este é um empate entre duas estradas, diferente do passo 1, em que o empate era entre trem e estrada. Como a regra de desempate só precisa garantir que o trem não permaneça registrado quando existe uma estrada que o cubra, aqui a aresta que já estava registrada permanece.
 
 Nenhuma estrutura é alterada.
 
@@ -133,17 +137,6 @@ Os vértices 3 e 4 empatam em 5. Assumindo que o 3 sai primeiro, a ordem não al
 
 **Ordem de extração.** A `pq` sempre devolve o vértice de menor distância provisória (0, 1, 2, 3, 4). Como todos os pesos são positivos, a distância de um vértice que sai da fila já é definitiva.
 
-**Decisão sobre os trens.** Depois do Dijkstra, cada rota de trem `(s, y)` é comparada com `distTo[s-1]`:
+**Decisão sobre os trens.** Durante o relaxamento, o Dijkstra registra em `edgeTo[w]` a aresta que define a menor distância até `w`. Em caso de empate, a estrada substitui o trem, sem alterar a fila de prioridade, pois `distTo[w]` não muda. Ao final, cada cidade cujo `edgeTo` é um trem depende dele para manter sua distância mínima, e esses são os trens necessários. A resposta é `k - necessárias`, sendo `k` o total de rotas de trem.
 
-* se `y > distTo[s-1]`, o trem é estritamente pior, então pode ser fechado;
-* se `y == distTo[s-1]`, o trem só pode ser fechado se existir uma **estrada** `u-s` com `distTo[u] + x == distTo[s-1]`, isto é, outro caminho de mesmo custo que não dependa do trem. Entre vários trens empatados para a mesma cidade, mantém-se apenas um.
-
-| Rota (cidade, comprimento) | Vértice | distTo[] | Comparação | Decisão | Motivo |
-|:--------------------------:|:-------:|:--------:|:----------:|:-------:|:-------|
-| (3, 5) | 2 | 3 | 5 > 3 | fecha | a estrada `0-2` já chega em 3, e o trem é pior |
-| (4, 5) | 3 | 5 | 5 = 5 | mantém | a única estrada que chega a 3 é `2-3`, e `distTo[2] + 4 = 7 > 5`, então só o trem garante a distância 5 |
-| (5, 5) | 4 | 5 | 5 = 5 | fecha | a estrada `0-4` (5) empata com o trem e já garante a distância mínima |
-
-**Resultado.** Apenas 1 rota é necessária (a da cidade 4). O número máximo de rotas que podem ser fechadas é `k - necessárias = 3 - 1 = 2`, o que coincide com a saída esperada do exemplo.
-
-**Complexidade.** O Dijkstra continua com custo O((V + E) log V), e a verificação dos trens percorre as `k` rotas e as arestas incidentes uma vez, com custo O(V + E + k), sem alterar a ordem de complexidade total.
+**Complexidade.** O Dijkstra continua com custo O((V + E) * log V). A troca no empate custa O(1) por relaxamento, e a contagem final percorre os vértices uma vez, com custo O(V), sem alterar a ordem de complexidade total.
