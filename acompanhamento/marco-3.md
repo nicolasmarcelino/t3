@@ -141,4 +141,4 @@ Os vértices 3 e 4 empatam em 5. Assumindo que o 3 sai primeiro, a ordem não al
 
 **Complexidade.** O Dijkstra continua com custo O((V + E) * log V). A troca no empate custa O(1) por relaxamento, e a contagem final percorre os vértices uma vez, com custo O(V), sem alterar a ordem de complexidade total.
 
-**Referência:** a descrição e a aplicação do algoritmo de Dijkstra apresentadas neste documento foram baseadas no material [A9_Caminhos_Custo_Mínimo.pdf](https://github.com/carubbi/RPG/blob/main/mat-didatico/aulas/A3_BFS_DFS.pdf](https://github.com/carubbi/RPG/blob/main/mat-didatico/aulas/A9_Caminhos_Custo_M%C3%ADnimo.pdf)), do professor Ricardo Carubbi, que utiliza como referência o livro *Algorithms*, de Robert Sedgewick e Kevin Wayne.
+**Referência:** a descrição e a aplicação do algoritmo de Dijkstra apresentadas neste documento foram baseadas no material [A9_Caminhos_Custo_Mínimo.pdf](https://github.com/carubbi/RPG/blob/aedc39917558de73ae03a26027515bd12103789d/mat-didatico/aulas/A9_Caminhos_Custo_M%C3%ADnimo.pdf), do professor Ricardo Carubbi, que utiliza como referência o livro *Algorithms*, de Robert Sedgewick e Kevin Wayne.
